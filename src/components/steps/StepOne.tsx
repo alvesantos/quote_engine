@@ -14,10 +14,27 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
 const stepOneSchema = z.object({
   destination: z.string().min(1, "O destino é obrigatório"),
   start_date: z.string().min(1, "A data de início é obrigatória"),
   end_date: z.string().min(1, "A data de fim é obrigatória"),
+})
+.refine((data) => {
+  if (!data.start_date) return true;
+  return new Date(data.start_date) >= today;
+}, {
+  message: "A data de início não pode ser no passado",
+  path: ["start_date"],
+})
+.refine((data) => {
+  if (!data.start_date || !data.end_date) return true;
+  return new Date(data.end_date) >= new Date(data.start_date);
+}, {
+  message: "A data de fim deve ser igual ou posterior à data de início",
+  path: ["end_date"],
 });
 
 type StepOneValues = z.infer<typeof stepOneSchema>;
