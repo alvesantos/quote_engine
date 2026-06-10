@@ -13,6 +13,7 @@ Rode em Conjunto:
 
 ```bash
 git clone git@github.com:ebagabee/quote_engine_frontend.git
+cd quote_engine_frontend
 ```
 
 ### 2. Instalar dependências
