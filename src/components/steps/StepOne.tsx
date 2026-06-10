@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
@@ -6,29 +5,47 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import useQuoteStore from "@/store/useQuoteStore";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+const stepOneSchema = z.object({
+  destination: z.string().min(1, "O destino é obrigatório"),
+  start_date: z.string().min(1, "A data de início é obrigatória"),
+  end_date: z.string().min(1, "A data de fim é obrigatória"),
+});
+
+type StepOneValues = z.infer<typeof stepOneSchema>;
 
 function StepOne() {
   const { payload, setPayload, nextStep } = useQuoteStore();
 
-  const [destination, setDestination] = useState(payload.destination);
-  const [startDate, setStartDate] = useState(payload.start_date);
-  const [endDate, setEndDate] = useState(payload.end_date);
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<StepOneValues>({
+    resolver: zodResolver(stepOneSchema),
+    defaultValues: {
+      destination: payload.destination || "",
+      start_date: payload.start_date || "",
+      end_date: payload.end_date || "",
+    },
+  });
 
-  function handleNext() {
+  const onSubmit = (data: StepOneValues) => {
     setPayload({
       ...payload,
-      destination,
-      start_date: startDate,
-      end_date: endDate,
+      ...data,
     });
-
     nextStep();
-  }
+  };
 
   return (
     <Card className="w-full max-w-md">
@@ -36,48 +53,87 @@ function StepOne() {
         <CardTitle>Dados da Viagem</CardTitle>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <Label>Destino</Label>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <CardContent className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <Label className={errors.destination ? "text-red-500" : ""}>
+              Destino
+            </Label>
+            <Controller
+              name="destination"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger
+                    className={`w-full ${errors.destination ? "border-red-500" : ""}`}
+                  >
+                    <SelectValue placeholder="Selecione o destino" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="NATIONAL">Nacional</SelectItem>
+                    <SelectItem value="AMERICAN">Américas</SelectItem>
+                    <SelectItem value="EUROPE">Europa</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.destination && (
+              <p className="text-xs text-red-500">
+                {errors.destination.message}
+              </p>
+            )}
+          </div>
 
-          <Select value={destination} onValueChange={setDestination}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecione o destino" />
-            </SelectTrigger>
+          <div className="flex flex-col gap-2">
+            <Label className={errors.start_date ? "text-red-500" : ""}>
+              Data de Início
+            </Label>
+            
+            <Input
+              type="date"
+              {...register("start_date")}
+              className={
+                errors.start_date
+                  ? "border-red-500 focus-visible:ring-red-500"
+                  : ""
+              }
+            />
 
-            <SelectContent>
-              <SelectItem value="NATIONAL">Nacional</SelectItem>
-              <SelectItem value="AMERICAN">Américas</SelectItem>
-              <SelectItem value="EUROPE">Europa</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+            {errors.start_date && (
+              <p className="text-xs text-red-500">
+                {errors.start_date.message}
+              </p>
+            )}
+          </div>
 
-        <div className="flex flex-col gap-2">
-          <Label>Data de Início</Label>
-          <Input
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
+          <div className="flex flex-col gap-2">
+            <Label className={errors.end_date ? "text-red-500" : ""}>
+              Data de Fim
+            </Label>
+            
+            <Input
+              type="date"
+              {...register("end_date")}
+              className={
+                errors.end_date
+                  ? "border-red-500 focus-visible:ring-red-500"
+                  : ""
+              }
+            />
 
-        <div className="flex flex-col gap-2">
-          <Label>Data de Fim</Label>
-          <Input
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
+            {errors.end_date && (
+              <p className="text-xs text-red-500">{errors.end_date.message}</p>
+            )}
+          </div>
 
-        <Button
-          onClick={handleNext}
-          disabled={!destination || !startDate || !endDate}
-        >
-          Próximo
-        </Button>
-      </CardContent>
+          <Button type="submit" className="mt-2">
+            Próximo
+          </Button>
+        </CardContent>
+      </form>
     </Card>
   );
 }
