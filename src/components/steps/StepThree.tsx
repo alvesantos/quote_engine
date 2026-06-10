@@ -22,7 +22,7 @@ function StepThree() {
     return (
       <Card className="w-full max-w-lg text-center p-6">
         <p className="text-muted-foreground">Nenhuma cotação encontrada.</p>
-        <Button onClick={prevStep} className="mt-4">
+        <Button onClick={prevStep} className="mt-4 cursor-pointer">
           Voltar
         </Button>
       </Card>
@@ -180,11 +180,11 @@ function StepThree() {
       </CardContent>
 
       <CardFooter className="border-t bg-muted/10 flex gap-3 pt-4">
-        <Button variant="outline" onClick={prevStep} className="flex-1">
+        <Button variant="outline" onClick={prevStep} className="flex-1 cursor-pointer">
           Voltar e Editar
         </Button>
         <Button
-          className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+          className="flex-1 bg-green-600 hover:bg-green-700 text-white cursor-pointer"
         >
           Ir para o Pagamento
         </Button>

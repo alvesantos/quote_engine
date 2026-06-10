@@ -129,7 +129,7 @@ function StepOne() {
             )}
           </div>
 
-          <Button type="submit" className="mt-2">
+          <Button type="submit" className="mt-2 cursor-pointer">
             Próximo
           </Button>
         </CardContent>

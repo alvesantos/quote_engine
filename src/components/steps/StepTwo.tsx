@@ -83,7 +83,7 @@ function StepTwo() {
                     <button
                       type="button"
                       onClick={() => remove(index)}
-                      className="text-red-500 text-sm"
+                      className="text-red-500 text-sm cursor-pointer"
                     >
                       Remover
                     </button>
@@ -162,7 +162,7 @@ function StepTwo() {
           <button
             type="button"
             onClick={() => append({ name: "", birth_date: "", addons: [] })}
-            className="text-blue-500 text-sm text-left hover:underline"
+            className="text-blue-500 text-sm text-left hover:underline cursor-pointer"
           >
             + Adicionar viajante
           </button>
@@ -176,7 +176,7 @@ function StepTwo() {
             >
               Voltar
             </Button>
-            <Button type="submit" disabled={loading} className="flex-1">
+            <Button type="submit" disabled={loading} className="flex-1 cursor-pointer">
               {loading ? "Calculando..." : "Confirmar"}
             </Button>
           </div>
