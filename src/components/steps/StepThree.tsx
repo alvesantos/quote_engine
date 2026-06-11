@@ -117,11 +117,11 @@ function StepThree() {
         <div className="flex flex-col gap-3">
           <h3 className="text-sm font-semibold flex items-center gap-1.5 text-muted-foreground">
             <Users className="h-4 w-4" /> Viajantes (
-            {quoteResult.travelers.length})
+            {quoteResult.travelers?.length ?? 0})
           </h3>
 
           <div className="space-y-3 max-h-65 overflow-y-auto pr-1">
-            {quoteResult.travelers.map((traveler, index) => (
+            {quoteResult.travelers?.map((traveler, index) => (
               <div
                 key={index}
                 className="border p-3 rounded-md flex flex-col gap-1.5 bg-card text-sm"
