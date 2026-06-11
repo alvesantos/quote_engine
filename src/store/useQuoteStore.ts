@@ -11,13 +11,13 @@ const quoteResultSchema = z.object({
       birth_date: z.string(),
       addons: z.array(z.string()),
       age: z.number(),
-      subtotal: z.number(),
+      subtotal: z.coerce.number(),
       addons_allowed: z.array(z.string()),
     }),
   ),
   warnings: z.array(z.string()),
   discount_group_percentage: z.number(),
-  total_final: z.number(),
+  total_final: z.coerce.number(),
 });
 
 interface QuoteStore {
