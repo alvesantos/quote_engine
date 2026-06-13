@@ -163,7 +163,7 @@ function StepThree() {
           {quoteResult.discount_group_percentage > 0 && (
             <div className="flex justify-between text-sm text-green-600 font-medium">
               <span>
-                Desconto em Grupo ({quoteResult.discount_group_percentage}%)
+                Desconto em Grupo ({quoteResult.discount_group_percentage || 0}%)
               </span>
               <span>Ativado</span>
             </div>
@@ -173,7 +173,7 @@ function StepThree() {
               Valor Total Final
             </span>
             <span className="text-2xl font-black text-primary">
-              {formatCurrency(quoteResult.total_final)}
+              {formatCurrency(quoteResult.total_final || 0)}
             </span>
           </div>
         </div>

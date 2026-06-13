@@ -48,6 +48,7 @@ const useQuoteStore = create<QuoteStore>((set, get) => ({
 
   nextStep: () => set((state) => ({ step: state.step + 1 })),
   prevStep: () => set((state) => ({ step: state.step - 1 })),
+  
   setPayload: (payload) => set({ payload }),
 
   submitQuote: async () => {

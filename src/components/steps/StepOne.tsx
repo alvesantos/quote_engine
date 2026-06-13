@@ -21,6 +21,7 @@ const stepOneSchema = z.object({
 })
 .refine((data) => {
   const [year, month, day] = data.start_date.split("-").map(Number);
+
   const selected = new Date(year, month - 1, day);
   
   const today = new Date();
@@ -32,7 +33,6 @@ const stepOneSchema = z.object({
   path: ["start_date"],
 })
 .refine((data) => {
-  if (!data.start_date || !data.end_date) return true;
   return new Date(data.end_date) >= new Date(data.start_date);
 }, {
   message: "A data de fim deve ser igual ou posterior à data de início",
@@ -51,6 +51,7 @@ function StepOne() {
     formState: { errors },
   } = useForm<StepOneValues>({
     resolver: zodResolver(stepOneSchema),
+    
     defaultValues: {
       destination: payload.destination || "",
       start_date: payload.start_date || "",
@@ -63,6 +64,7 @@ function StepOne() {
       ...payload,
       ...data,
     });
+    
     nextStep();
   };
 

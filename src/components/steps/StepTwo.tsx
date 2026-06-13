@@ -31,6 +31,7 @@ function StepTwo() {
     formState: { errors },
   } = useForm<StepTwoValues>({
     resolver: zodResolver(stepTwoSchema),
+    
     defaultValues: {
       travelers:
         payload.travelers.length > 0
@@ -53,6 +54,7 @@ function StepTwo() {
 
   function toggleAddon(index: number, addon: string) {
     const currentAddons = watchedTravelers[index]?.addons || [];
+    
     const updatedAddons = currentAddons.includes(addon)
       ? currentAddons.filter((a) => a !== addon)
       : [...currentAddons, addon];
