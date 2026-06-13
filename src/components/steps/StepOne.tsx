@@ -20,10 +20,8 @@ const stepOneSchema = z.object({
   end_date: z.string().min(1, "A data de fim é obrigatória"),
 })
 .refine((data) => {
-  if (!data.start_date) return true;
-
   const [year, month, day] = data.start_date.split("-").map(Number);
-  const selected = new Date(year, month - 1, day); // local, sem fuso
+  const selected = new Date(year, month - 1, day);
   
   const today = new Date();
   today.setHours(0, 0, 0, 0);
