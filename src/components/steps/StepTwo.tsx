@@ -172,7 +172,7 @@ function StepTwo() {
               type="button"
               variant="outline"
               onClick={prevStep}
-              className="flex-1"
+              className="flex-1 cursor-pointer"
             >
               Voltar
             </Button>
